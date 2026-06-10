@@ -43,3 +43,12 @@ it('returns reported demo with sentry flag', function (): void {
         ->assertStatus(500)
         ->assertJsonPath('sentry', true);
 });
+
+it('surfaces queue reminder failures as critical errors', function (): void {
+    $this->post('/todos', [
+        'title' => 'queue-fail reminder test',
+        'priority' => 'high',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('error');
+});
