@@ -18,5 +18,6 @@ Route::prefix('todos')->name('todos.')->group(function (): void {
         Route::get('/reported', [TodoDemoController::class, 'reported'])->name('reported');
         Route::get('/uncaught', [TodoDemoController::class, 'uncaught'])->name('uncaught');
         Route::get('/nested', [TodoDemoController::class, 'nested'])->name('nested');
+        Route::get('/unique-issue', [TodoDemoController::class, 'uniqueIssue'])->name('unique-issue');
     });
 });

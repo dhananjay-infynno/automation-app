@@ -101,4 +101,23 @@ final class TodoDemoController extends Controller
             );
         }
     }
+
+    /**
+     * Auto-fix pipeline test — handled without uncaught exception.
+     */
+    public function uniqueIssue(): RedirectResponse|JsonResponse
+    {
+        if (request()->expectsJson()) {
+            return response()->json([
+                'scenario' => 'unique-issue',
+                'message' => 'Auto-fix pipeline test resolved successfully',
+                'sentry' => false,
+            ]);
+        }
+
+        return back()->with(
+            'success',
+            '[Unique Issue] Auto-fix pipeline test resolved — not reported to Sentry.',
+        );
+    }
 }
