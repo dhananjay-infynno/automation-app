@@ -31,6 +31,8 @@ final class TodoService
      */
     public function create(array $data): Todo
     {
+        $todo = null;
+
         try {
             if (Todo::query()->where('title', $data['title'])->exists()) {
                 throw TodoOperationException::duplicateTitle($data['title']);
@@ -50,10 +52,14 @@ final class TodoService
             return $todo;
         } catch (TodoOperationException $e) {
             throw $e;
+        } catch (CriticalTodoException $e) {
+            report($e);
+
+            throw $e;
         } catch (Throwable $e) {
             report($e);
 
-            throw CriticalTodoException::dataCorruption(0);
+            throw CriticalTodoException::dataCorruption($todo?->id ?? 0);
         }
     }
 
